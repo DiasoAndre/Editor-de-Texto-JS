@@ -1,10 +1,4 @@
-let pages = [
-    {
-      id: 0,
-      titulo: 'TESTE',
-      conteudo: 'TESTE'
-    },
-]
+let pages = []
   class Nota {
     constructor(titulo, conteudo) {
       this.id = pages.length 
@@ -23,6 +17,7 @@ let pages = [
         pages.push(notaAtual)
       }
     }
+    
   }
   
 function getContext(){
@@ -33,7 +28,7 @@ function getContext(){
     let context = [titulo,conteudo]
     return context
 }
-
-
-
-// code a bomber man game in javascript
+function del(nota){ // função para deletar uma nota
+  nota.button.style.display = 'none'
+  pages.splice(pages[nota])
+}

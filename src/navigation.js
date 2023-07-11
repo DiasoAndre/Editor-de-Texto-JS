@@ -1,7 +1,10 @@
 console.log('navigation.js initialized')
 let pageLoaded = false
 let pageForm = document.querySelector('.page')
+
 function drawPage(){ // desenha a pagina na tela
+    const boxAwait = document.querySelector('.boxAwait')
+    boxAwait.style.display = 'none'
     const input_title = document.createElement('input')
     input_title.type = 'text'
     input_title.placeholder = 'New Note'
@@ -15,6 +18,8 @@ function drawPage(){ // desenha a pagina na tela
     pageLoaded = true
 }
 function clearPage(){
+    const boxAwait = document.querySelector('.boxAwait')
+    boxAwait.style.display = 'block'
     const input_title = document.querySelector('.input_titulo')
     const textArea = document.querySelector('.conteudo')
     input_title.remove()
@@ -31,7 +36,7 @@ function updatePage(notaCarregar,titulo,conteudo){ // atualiza o contexto da pag
 
 function noteSearch(notaId){ // pesquisa uma nota pelo id do objeto nota
     let notaEncontrada = false
-    Object.keys(pages).forEach((key) =>{ //key é o range dos objetos dentro do array
+    Object.keys(pages).forEach((key) =>{ //key é o posição dos objetos dentro do array
         const nota = pages[key]
         if (notaId == nota.id){
             notaEncontrada = nota
@@ -42,7 +47,7 @@ function noteSearch(notaId){ // pesquisa uma nota pelo id do objeto nota
 
 function searchTitulo(tituloDaNota){ // pesquisa uma nota pelo titulo do objeto nota
     let notaEncontrada = false
-    Object.keys(pages).forEach((key) =>{ //key é o range dos objetos dentro do array
+    Object.keys(pages).forEach((key) =>{ //key é a posição  dos objetos dentro do array
         const nota = pages[key]
         if (tituloDaNota == nota.titulo){
             notaEncontrada = nota
@@ -57,14 +62,33 @@ function createButton(text,nota){
     bar.appendChild(button)
     const image = document.createElement('img')
     image.src = '../assets/doc.png'
-    button.appendChild(image)
     button.innerText = text
     button.addEventListener('click', () => {
-        clearPage()
-        drawPage()
+        if(pageLoaded == false){
+            drawPage()
+        }
         updatePage(nota,nota.titulo,nota.conteudo)
-        console.log(`update screen, note ${notaAtual}`)
+        console.log(`update screen, note id: ${notaAtual.id} titulo: ${notaAtual.titulo}`)
     })
     console.log('created button')
     return button
+}
+
+function animateCheck(objeto,img,caminhoPadrao){
+    objeto.style.animation = 'checkSave 1s'
+    if(img&&caminhoPadrao){
+        img.src = '../assets/check.png'
+    }
+    setTimeout(()=>{
+        objeto.style.animation = 'none'
+        if(img&&caminhoPadrao){
+            img.src = caminhoPadrao
+        }
+    }, 800)
+}
+function falseCheck(objeto,img,caminhoPadrao){
+    objeto.style.animation = 'falseCheck 1s'
+    setTimeout(()=>{
+        objeto.style.animation = 'none'
+    }, 800)
 }
